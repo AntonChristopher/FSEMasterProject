@@ -14,13 +14,15 @@ function victoryBeep()
     brick.beep();
 end
 
+
 InitKeyboard();
 state = "manual nav";
 colorState = "yellow";
-leftMotor = 'D';
-rightMotor = 'A';
+leftMotor = 'A';
+rightMotor = 'D';
 clawMotor = 'C';
-regSpeed = 30;
+regSpeed = 50;
+manualTurnSpeed = 30;
 colorPort = 1;
 touchPort = 2;
 distancePort = 3;
@@ -33,7 +35,7 @@ distancePort = 3;
 %
 %
 
-
+brick.beep();
 while 1
 
     pause(0.1);
@@ -85,42 +87,61 @@ while 1
     
         switch key
         
-        case 'uparrow'
-        
-            disp('Up Arrow Pressed!');
-            brick.MoveMotor(rightMotor, regSpeed);
-            brick.MoveMotor(leftMotor, regSpeed);
-        
-        
         case 'downarrow'
         
+            disp('Up Arrow Pressed!');
+            brick.MoveMotor(rightMotor, manualTurnSpeed);
+            brick.MoveMotor(leftMotor, manualTurnSpeed);
+            pause(.1);
+        
+                   
+        case 'uparrow'
+        
             disp('Down Arrow Pressed!');
-            brick.MoveMotor(rightMotor, -regSpeed);
-            brick.MoveMotor(leftMotor,-regSpeed);
+            brick.MoveMotor(rightMotor, -manualTurnSpeed);
+            brick.MoveMotor(leftMotor,-manualTurnSpeed);
+            pause(.1);
         
         case 'leftarrow'
         
             disp('Left Arrow Pressed!');
-            brick.MoveMotor(rightMotor, regSpeed);
+                brick.MoveMotor(rightMotor, manualTurnSpeed);
+                brick.MoveMotor(leftMotor, -manualTurnSpeed);
+                pause(.1);
+
         
         case 'rightarrow'
         
             disp('Right Arrow Pressed!');
-            brick.MoveMotor(leftMotor, regSpeed);
+            brick.MoveMotor(rightMotor, -manualTurnSpeed);
+            brick.MoveMotor(leftMotor, manualTurnSpeed);
+            pause(.1);
+    
+
+        case 'space'
+            disp("Stopped");
+            brick.StopAllMotors();
+    
     
         case 'w'
         
             disp("Releasing object!");
             brick.MoveMotor(clawMotor, -20);
+            pause(.1);
     
         case 's'
         
             disp("Grabbing object!");
             brick.MoveMotor(clawMotor, 20);
+            pause(.1);
         
         case 'r'
             
             state = "reg nav";
+
+        case 0
+            
+            brick.stopAllMotors();
         
         end
     
@@ -134,9 +155,9 @@ while 1
             brick.StopMotor(leftMotor);
             state = "execute right turn";
         elseif distance > 6 && distance < 15  %move away from wall
-            brick.MoveMotor(leftMotor, regSpeed+5);
+            brick.MoveMotor(leftMotor, regSpeed+10);
         elseif distance < 6  %move towards wall
-            brick.MoveMotor(rightMotor, regSpeed+5);
+            brick.MoveMotor(rightMotor, regSpeed+10);
         elseif distance > 15  % execute left turn
             state = "execute left turn";
         end
