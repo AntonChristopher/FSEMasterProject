@@ -2,23 +2,6 @@ global key;
 
 %brick = ConnectBrick("BOB");
 
-%Functions: ----------------------------
-
-function victoryBeep()
-    
-    brick.beep();
-    pause(.5);
-    brick.beep();
-    pause(.5)
-    brick.beep();
-    pause(.1);
-    brick.beep();
-    pause(.1);
-    brick.beep();
-end
-
-
-
 %Initial variables: ----------------------------
 
 %States list:
@@ -41,20 +24,15 @@ colorPort = 1;
 touchPort = 2;
 distancePort = 3;
 
-%Try:
-distance = brick.UltrasonicDist(distancePort);
-touch = brick.TouchPressed(touchPort);
-color = brick.ColorCode(colorPort);
-
 
 %Main loop: ----------------------------
 
 brick.beep();
 while 1
 
-    % distance = brick.UltrasonicDist(distancePort);
-    % touch = brick.TouchPressed(touchPort);
-    % color = brick.ColorCode(colorPort);
+    distance = brick.UltrasonicDist(distancePort);
+    touch = brick.TouchPressed(touchPort);
+    color = brick.ColorCode(colorPort);
     
 
     
